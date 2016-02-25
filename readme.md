@@ -77,6 +77,12 @@ The last trick up this little function's sleeve is an `_optional` block:
     })
     // --> no error
 
+    myFunction({
+        id: 007,
+        username: 12345
+    })
+    // --> "property 'username' has wrong type"
+
 To see the function from which you called `passMuster`, just look at the stack trace on the error that gets thrown.
 
 ## License
