@@ -1,0 +1,14 @@
+{
+  "name": "passmuster",
+  "version": "0.0.1",
+  "description": "A simple function emulating an interface so you can validate your argument objects.",
+  "main": "pass-muster.js",
+  "scripts": {
+    "test": "node test"
+  },
+  "author": "James Irwin (@rebolyte)",
+  "license": "MIT",
+  "devDependencies": {
+    "tape": "^4.4.0"
+  }
+}
