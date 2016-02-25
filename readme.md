@@ -4,86 +4,96 @@ Objects work well as a single argument to a function. That way you don't have to
 
 ## Usage
 
-    myFunction(opts) {
-        passMuster(opts, {
-            id: 'number',
-            username: 'string'
-        });
-        // do something with opts object
-    }
+```js
+myFunction(opts) {
+    passMuster(opts, {
+        id: 'number',
+        username: 'string'
+    });
+    // do something with opts object
+}
 
-    myFunction({
-        id: 007,
-        username: 'jbond'
-    })
-    // --> no error thrown, myFunction continues
+myFunction({
+    id: 007,
+    username: 'jbond'
+})
+// --> no error thrown, myFunction continues
+```
 
 If `myFunction` is called without a required property, `passMuster` will throw an error:
 
-    myFunction({
-        id: 007
-    })
-    // --> "missing property 'username'"
+```js
+myFunction({
+    id: 007
+})
+// --> "missing property 'username'"
+```
 
 It will also throw an error if the property is not the right type:
 
-    myFunction({
-        id: 007
-        username: 12345
-    })
-    // --> "property 'username' has wrong type"
-
+```js
+myFunction({
+    id: 007
+    username: 12345
+})
+// --> "property 'username' has wrong type"
+```
 
 Nested objects also work:
 
-     myFunction(opts) {
-        passMuster(opts, {
-            id: 'number',
-            address: {
-                street: 'string',
-                city: 'string',
-                state: 'string',
-                zip: 'number'
-            }
-        });
-        // do something with opts object
-    }
-
-    myFunction({
-        id: 007,
+```js
+ myFunction(opts) {
+    passMuster(opts, {
+        id: 'number',
         address: {
-            street: '123 anywhere st',
-            city: 'Los Angeles',
-            state: 'CA'
+            street: 'string',
+            city: 'string',
+            state: 'string',
+            zip: 'number'
         }
-    })
-    // --> "missing property 'zip'"
+    });
+    // do something with opts object
+}
 
+myFunction({
+    id: 007,
+    address: {
+        street: '123 anywhere st',
+        city: 'Los Angeles',
+        state: 'CA'
+    }
+})
+// --> "missing property 'zip'"
+```
 
 The last trick up this little function's sleeve is an `_optional` block:
 
-    myFunction(opts) {
-        passMuster(opts, {
-            id: 'number',
-            _optional: {
-                username: 'string'
-            }
-        })
-        // do something with opts object
-    }
-
-    myFunction({
-        id: 007
+```js
+myFunction(opts) {
+    passMuster(opts, {
+        id: 'number',
+        _optional: {
+            username: 'string'
+        }
     })
-    // --> no error
+    // do something with opts object
+}
 
-    myFunction({
-        id: 007,
-        username: 12345
-    })
-    // --> "property 'username' has wrong type"
+myFunction({
+    id: 007
+})
+// --> no error
+
+myFunction({
+    id: 007,
+    username: 12345
+})
+// --> "property 'username' has wrong type"
+```
 
 To see the function from which you called `passMuster`, just look at the stack trace on the error that gets thrown.
+
+Of course, this isn't limited to validating objects passed as arguments. Use it wherever you want to make sure an object has what you need.
 
 ## License
 
