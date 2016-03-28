@@ -167,5 +167,149 @@ test('does passMuster pass muster', function (t) {
 		});
 	}, true, 'optional block inside object inside optional block');
 
+	var opts11 = {
+		tableName: 'testing',
+		hashkey: 12
+	};
+	t.doesNotThrow(function() {
+		passMuster(opts11, {
+			tableName: 'string',
+			hashkey: ['string', 'number']
+		});
+	}, true, 'takes array of possible types');
+
+	t.throws(function() {
+		passMuster(opts11, {
+			tableName: 'string',
+			hashkey: ['string', 'array']
+		});
+	}, /not one of allowed/, 'throws on property of type not in array of types');
+
+	var opts12 = {
+		test: 'test1',
+		nested: {
+			subProp: 'testing'
+		}
+	};
+	t.doesNotThrow(function() {
+		passMuster(opts12, {
+			test: 'string',
+			nested: {
+				subProp: ['string', 'number']
+			}
+		});
+	}, true, 'takes array of possible types within nested block');
+
+	t.doesNotThrow(function() {
+		passMuster(opts11, {
+			tableName: 'string',
+			_optional: {
+				hashkey: ['string', 'number']
+			}
+		});
+	}, true, 'takes array of possible types within optional block');
+
+	t.throws(function() {
+		passMuster(opts11, {
+			tableName: 'string',
+			_optional: {
+				hashkey: ['string', 'array']
+			}
+		});
+	}, /not one of allowed/, 'throws on property not in array within optional block');
+
+	var opts13 = {
+		tableName: 'testing'
+	};
+	t.doesNotThrow(function() {
+		passMuster(opts13, {
+			tableName: 'string',
+			_optional: {
+				hashkey: ['string', 'number']
+			}
+		});
+	}, true, 'passes with missing prop + array of possible types within optional block');
+
+
+	t.doesNotThrow(function() {
+		passMuster(opts11, {
+			tableName: 'string',
+			hashkey: function (p) {
+				return p % 2 === 0;
+			}
+		});
+	}, true, 'validates type with predicate function');
+
+	t.throws(function() {
+		passMuster(opts11, {
+			tableName: 'string',
+			hashkey: function (p) {
+				return p % 5 === 0;
+			}
+		});
+	}, /does not pass predicate/, 'throws on property with failing predicate');
+
+	t.doesNotThrow(function() {
+		passMuster(opts11, {
+			tableName: 'string',
+			hashkey: function (p) {
+				return typeof p !== this.tableName;
+			}
+		});
+	}, true, 'predicate function called in correct context');
+
+	t.doesNotThrow(function() {
+		passMuster(opts11, {
+			tableName: 'string',
+			hashkey: function (p, inObj) {
+				return p > inObj.tableName.length;
+			}
+		});
+	}, true, 'predicate function can reference object being validated');
+
+	t.doesNotThrow(function() {
+		passMuster(opts12, {
+			test: 'string',
+			nested: {
+				subProp: function (p) {
+					return p.length < 20;
+				}
+			}
+		});
+	}, true, 'predicate function passes in nested object');
+
+	t.throws(function() {
+		passMuster(opts12, {
+			test: 'string',
+			nested: {
+				subProp: function (p) {
+					return p.length > 20;
+				}
+			}
+		});
+	}, /does not pass predicate/, 'predicate function can fail in nested object');
+
+	t.doesNotThrow(function() {
+		passMuster(opts11, {
+			tableName: 'string',
+			_optional: {
+				hashkey: function (p) {
+					return p < 20;
+				}
+			}
+		});
+	}, true, 'predicate function passes in _optional block with value supplied');
+
+	t.doesNotThrow(function() {
+		passMuster(opts13, {
+			tableName: 'string',
+			_optional: {
+				hashkey: function (p) {
+					return p < 20;
+				}
+			}
+		});
+	}, true, 'predicate function passes in _optional block w/o value supplied');
+
 	t.end();
 });
