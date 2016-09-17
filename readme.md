@@ -165,6 +165,12 @@ myFunction({
 
 To see the function from which you called `passMuster`, just look at the stack trace on the error that gets thrown.
 
+## See also
+
+* [obey](https://github.com/TechnologyAdvice/obey)
+* [is.js](https://github.com/pwnn/is.js)
+
 ## License
 
 MIT
+
