@@ -4,6 +4,8 @@ Objects work well as a single argument to a function. That way you don't have to
 
 Of course, this isn't limited to validating objects passed as arguments. Use it wherever you want to make sure an object has what you need.
 
+The module is written in good ol' ES5, so it works everywhere.
+
 ## Usage
 
 ```js
@@ -44,7 +46,7 @@ myFunction({
 An array of possible types can be supplied:
 
 ```js
-var objToValidate = {
+let objToValidate = {
     prop: 'test'
 }
 passMuster(objToValidate, {
@@ -61,36 +63,38 @@ passMuster(objToValidate, {
 If you have further validation you want to do, a predicate function that returns `true` or `false` can be passed in:
 
 ```js
-var objToValidate = {
+let objToValidate = {
     num: 11
 }
 passMuster(objToValidate, {
-    num: function (p) {
-        return p < 100;
-    }
+    num: p => (p < 100)
 });
 // --> no error
 
 passMuster(objToValidate, {
-    num: function (p) {
-        return p % 2 === 0;
-    }
+    num: p => (p % 2 === 0)
 });
 // --> "property 'num' does not pass predicate function"
+
+let alsoValidate = {
+    buf: new Buffer(2)
+}
+passMuster(alsoValidate, {
+    buf: _.isBuffer // <-- using lodash
+});
+// --> no error
 ```
 
 Predicate functions are executed in the context of the type object, so you can reference the expected type of other properties:
 
 ```js
-var objToValidate = {
-    otherProp: 'foobar'
-    num: 11,
+let objToValidate = {
+    otherProp: 'foobar',
+    num: 11
 }
 passMuster(objToValidate, {
     otherProp: 'string',
-    num: function (p) {
-        return typeof p !== this.otherProp;
-    }
+    num: p => (typeof p !== this.otherProp)
 });
 // --> no error
 ```
@@ -98,15 +102,13 @@ passMuster(objToValidate, {
 If you need to reference the other values passed in, the object being validated is passed as a second argument to predicate functions:
 
 ```js
-var objToValidate = {
-    otherProp: 'foobar'
-    num: 11,
+let objToValidate = {
+    otherProp: 'foobar',
+    num: 11
 }
 passMuster(objToValidate, {
     otherProp: 'string',
-    num: function (p, objIn) {
-        return p > objIn.otherProp.length;
-    }
+    num: (p, objIn) => is.not.sameType(p, objIn.otherProp) // <-- using @pwn/is, linked below
 });
 // --> no error
 ```

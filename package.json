@@ -10,5 +10,14 @@
   "license": "MIT",
   "devDependencies": {
     "tape": "^4.4.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rebolyte/pass-muster.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/rebolyte/pass-muster/issues"
+  },
+  "homepage": "https://github.com/rebolyte/pass-muster#readme"
 }
