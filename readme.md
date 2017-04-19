@@ -169,6 +169,7 @@ To see the function from which you called `passMuster`, just look at the stack t
 
 ## See also
 
+* [joi](https://github.com/hapijs/joi)
 * [obey](https://github.com/TechnologyAdvice/obey)
 * [is.js](https://github.com/pwnn/is.js) (see `is.conforms`)
 * [rfx](https://github.com/ericelliott/rfx)
