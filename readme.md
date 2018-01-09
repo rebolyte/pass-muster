@@ -174,6 +174,7 @@ To see the function from which you called `passMuster`, just look at the stack t
 * [is.js](https://github.com/pwnn/is.js) (see `is.conforms`)
 * [rfx](https://github.com/ericelliott/rfx)
 * [validator.js](https://github.com/chriso/validator.js)
+* [io-ts](https://github.com/gcanti/io-ts)
 
 ## License
 
