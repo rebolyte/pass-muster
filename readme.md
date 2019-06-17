@@ -176,6 +176,7 @@ To see the function from which you called `passMuster`, just look at the stack t
 * [validator.js](https://github.com/chriso/validator.js)
 * [io-ts](https://github.com/gcanti/io-ts)
 * [superstruct](https://github.com/ianstormtaylor/superstruct)
+* [yup](https://github.com/jquense/yup)
 
 ## License
 
